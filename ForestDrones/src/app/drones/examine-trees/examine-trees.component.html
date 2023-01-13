@@ -1,0 +1,29 @@
+<h1>Damaged Trees</h1>
+<br />
+<p>
+  Drone: {{ droneId }}
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="this.shutdownDrone()"
+    routerLink="/drones"
+  >
+    Call home
+  </button>
+</p>
+
+<br />
+<mat-card>
+  <mat-card-content>
+    <table>
+      <tr>
+        <th>x Pos</th>
+        <th>y Pos</th>
+      </tr>
+      <tr *ngFor="let tree of damagedTrees">
+        <td>{{ tree.x }}</td>
+        <td>{{ tree.y }}</td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

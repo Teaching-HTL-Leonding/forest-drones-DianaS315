@@ -1,0 +1,107 @@
+<br />
+<h1>Forest Manager</h1>
+
+<br />
+<br />
+<mat-card>
+  <mat-card-content>
+    My position:
+    <p>
+      x: <input type="number" [(ngModel)]="this.xForesterPosition" /> y:
+      <input type="number" [(ngModel)]="this.yForesterPosition" />
+    </p>
+    Drone to call:
+    <input type="number" [(ngModel)]="this.calledDroneId" />
+    <button mat-flat-button color="primary" (click)="this.callDrone()">
+      Call drone
+    </button>
+  </mat-card-content>
+</mat-card>
+<br />
+<br />
+
+<h2>All Drones</h2>
+
+<mat-card>
+  <mat-card-content>
+    <table>
+      <tr>
+        <th>id</th>
+        <th>isActive</th>
+        <th>Start</th>
+        <th>Postition</th>
+      </tr>
+      <tr *ngFor="let drone of this.drones">
+        <td>{{ drone.id }}</td>
+        <td>{{ drone.isActive }}</td>
+        <td>
+          <button
+            mat-flat-button
+            color="primary"
+            *ngIf="!drone.isActive"
+            (click)="this.activateDrone(drone.id)"
+          >
+            Activate
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            *ngIf="drone.isActive"
+            (click)="this.shutdownDrone(drone.id)"
+          >
+            Shutdown
+          </button>
+        </td>
+        <td *ngIf="drone.isActive">
+          x: {{ drone.position!.x }}
+          <br />
+          y: {{ drone.position!.y }}
+        </td>
+        <td *ngIf="!drone.isActive">x: 0 <br />y: 0</td>
+        <td>
+          <p *ngIf="drone.isActive">
+            Fly to:
+            <br />
+            <label>x: </label>
+            <input
+              type="number"
+              [(ngModel)]="this.xDronePosition"
+              min="-750"
+              max="750"
+            />
+            <br />
+            <label>y: </label>
+            <input
+              type="number"
+              [(ngModel)]="this.yDronePosition"
+              min="-750"
+              max="750"
+            />
+          </p>
+        </td>
+        <td *ngIf="drone.isActive">
+          <button
+            [disabled]="this.loading == true"
+            mat-flat-button
+            color="primary"
+            (click)="this.changePosition(drone.id)"
+          >
+            Save Position
+          </button>
+        </td>
+        <td>
+          <button
+            routerLink="/drones/examine-trees/{{ drone.id }}/{{ drone.position!.x }}/{{
+              drone.position!.y
+            }}"
+            *ngIf="drone.isActive"
+            mat-flat-button
+            color="primary"
+          >
+            Scan
+          </button>
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>
